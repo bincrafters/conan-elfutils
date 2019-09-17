@@ -17,12 +17,12 @@ class ELFUtilsConan(ConanFile):
     exports = ["LICENSE.md", "elfutils.patch"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"fPIC": [True, False]}
-    default_options = "fPIC=True"
+    default_options = {'fPIC': 'True'}
     autotools = None
-    source_subfolder = "source_subfolder"
+    _source_subfolder = "source_subfolder"
     requires = (
-        "bzip2/1.0.6@conan/stable",
-        "zlib/1.2.11@conan/stable",
+        "bzip2/1.0.6",
+        "zlib/1.2.11",
         "lzma/5.2.4@bincrafters/stable"
     )
 
@@ -36,14 +36,14 @@ class ELFUtilsConan(ConanFile):
     def source(self):
         tools.get("{}/ftp/{}/{}-{}.tar.bz2".format(self.homepage, self.version, self.name, self.version))
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, self.source_subfolder)
-        tools.patch(base_path=self.source_subfolder, patch_file='elfutils.patch')
+        os.rename(extracted_dir, self._source_subfolder)
+        tools.patch(base_path=self._source_subfolder, patch_file='elfutils.patch')
 
     def configure_autotools(self):
         if not self.autotools:
             args = ['--enable-silent-rules', '--with-zlib', '--with-bzlib', '--with-lzma']
             self.autotools = AutoToolsBuildEnvironment(self, win_bash=tools.os_info.is_windows)
-            self.autotools.configure(configure_dir=self.source_subfolder, args=args)
+            self.autotools.configure(configure_dir=self._source_subfolder, args=args)
         return self.autotools
 
     def build(self):
@@ -51,7 +51,7 @@ class ELFUtilsConan(ConanFile):
         autotools.make()
 
     def package(self):
-        self.copy(pattern="COPYING*", dst="licenses", src=self.source_subfolder)
+        self.copy(pattern="COPYING*", dst="licenses", src=self._source_subfolder)
         autotools = self.configure_autotools()
         autotools.install()
         shutil.rmtree(os.path.join(self.package_folder, "share"))
