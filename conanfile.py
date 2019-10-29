@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 import os
 import shutil
@@ -23,7 +20,7 @@ class ELFUtilsConan(ConanFile):
     requires = (
         "bzip2/1.0.6",
         "zlib/1.2.11",
-        "lzma/5.2.4@bincrafters/stable"
+        "xz_utils/5.2.4"
     )
 
     def config_options(self):
@@ -32,6 +29,7 @@ class ELFUtilsConan(ConanFile):
 
     def configure(self):
         del self.settings.compiler.libcxx
+        del self.settings.compiler.cppstd
 
     def source(self):
         tools.get("{}/ftp/{}/{}-{}.tar.bz2".format(self.homepage, self.version, self.name, self.version))
