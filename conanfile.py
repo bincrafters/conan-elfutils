@@ -9,7 +9,6 @@ class ELFUtilsConan(ConanFile):
     description = "A collection of utilities and libraries to read, create and modify ELF binary files"
     url = "https://github.com/bincrafters/conan-elfutils"
     homepage = "https://sourceware.org/elfutils"
-    author = "Bincrafters <bincrafters@gmail.com>"
     license = "MIT"
     exports = ["LICENSE.md", "elfutils.patch"]
     settings = "os", "arch", "compiler", "build_type"
