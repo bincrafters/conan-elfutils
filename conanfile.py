@@ -10,7 +10,7 @@ class ELFUtilsConan(ConanFile):
     url = "https://github.com/bincrafters/conan-elfutils"
     homepage = "https://sourceware.org/elfutils"
     license = "MIT"
-    exports = ["LICENSE.md", "elfutils.patch"]
+    exports = ["elfutils.patch"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"fPIC": [True, False]}
     default_options = {'fPIC': 'True'}
